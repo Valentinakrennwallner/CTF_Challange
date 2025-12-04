@@ -1,0 +1,9 @@
+id,name,price,image_url,description
+1,Laptop,120000,/api/images/laptop.webp,"High-performance laptop for all your needs."
+2,Mouse,2500,/api/images/mouse.webp,"Ergonomic wireless mouse."
+3,Keyboard,7500,/api/images/keyboard.webp,"Mechanical keyboard with RGB lighting."
+4,Webcam,8000,/api/images/webcam.webp,"1080p HD webcam for clear video calls."
+5,Monitor,30000,/api/images/monitor.webp,"27-inch 4K UHD monitor."
+6,USB Hub,1200,/api/images/usbhub.webp,"4-port USB 3.0 hub."
+7,Desk Chair,15000,/api/images/chair.webp,"Comfortable and adjustable office chair."
+8,Headphones,10000,/api/images/headphones.webp,"Noise-cancelling over-ear headphones."

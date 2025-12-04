@@ -1,0 +1,23 @@
+name: price-drop-ctf
+services:
+  backend:
+    build: ./price-drop-backend
+    image: price-drop-backend
+    container_name: price-drop-backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./price-drop-backend/data:/app/data # Placeholder for data directory
+    environment:
+      - CTF_FLAG=YouDamnCheapAssO
+  frontend:
+    build:
+      context: ./price-drop-frontend
+      args:
+        - API_BASE_URL=http://localhost:5000 # Placeholder for API base URL
+    image: price-drop-frontend
+    container_name: price-drop-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
