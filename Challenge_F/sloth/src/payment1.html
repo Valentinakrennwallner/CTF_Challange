@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warenkorb - Tiergarten Schönbrunn</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: #f9f5e8;
+            padding: 15px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .logo span {
+            font-size: 18px;
+            font-weight: bold;
+            color: #5d4037;
+        }
+
+        .search-bar {
+            flex: 1;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 8px 30px 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .search-bar::after {
+            content: '🔍';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .lang-select {
+            font-size: 14px;
+            color: #5d4037;
+        }
+
+        .cart-info {
+            background-color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #5d4037;
+        }
+
+        .login-btn {
+            background-color: #6d4c41;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        nav {
+            background-color: #fff;
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        .nav-links a {
+            color: #5d4037;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 30px 0;
+        }
+
+        .breadcrumb {
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #6d4c41;
+        }
+
+        .breadcrumb a {
+            color: #6d4c41;
+            text-decoration: none;
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .cart-table th {
+            background-color: #f0f0f0;
+            text-align: left;
+            padding: 12px;
+            font-weight: normal;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+            font-size: 14px;
+        }
+
+        .delete-btn {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            padding: 5px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .delete-btn:hover {
+            background-color: #b71c1c;
+        }
+
+        .item-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .item-description {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .item-title {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .item-details {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .price {
+            white-space: nowrap;
+        }
+
+        .quantity {
+            text-align: center;
+        }
+
+        .total-row {
+            font-weight: bold;
+            background-color: #f9f5e8;
+        }
+
+        .vat-row td {
+            font-size: 12px;
+            color: #777;
+            padding-top: 5px;
+            padding-bottom: 10px;
+        }
+
+        .summary {
+            text-align: right;
+            margin: 20px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .continue-btn {
+            background-color: #6d4c41;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            float: right;
+        }
+
+        .notice {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #5d4037;
+        }
+
+        footer {
+            background-color: #f9f5e8;
+            padding: 30px 0;
+            font-size: 12px;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .footer-columns {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .footer-column h4 {
+            margin-bottom: 10px;
+            color: #5d4037;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 5px;
+        }
+
+        .footer-column ul li a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .footer-column ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .contact-icon {
+            font-size: 18px;
+            color: #ff9800;
+        }
+
+        .payment-logos {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .payment-logos img {
+            height: 25px;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .search-bar {
+                margin: 0;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+            }
+
+            .footer-columns {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjMiIiBmaWxsPSIjRkZGMDAwIi8+CjxjaXJjbGUgY3g9IjI1IiBjeT0iMjUiIHI9IjE4IiBmaWxsPSJibGFjayIvPgo8Y2lyY2xlIGN4PSIzMCIgY3k9IjIwIiByPSI1IiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K" alt="Zoo Vienna Logo">
+                    <span>TIERGARTEN<br>SCHÖNBRUNN</span>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Suche - startet mit mindestens 3 Zeichen...">
+                </div>
+                <div class="header-right">
+                    <div class="lang-select">DE | EN</div>
+                    <div class="cart-info" id="cart-info">2 Artikel 138,00 €</div>
+                    <button class="login-btn">Anmelden</button>
+                </div>
+            </div>
+            <nav>
+                <div class="nav-links">
+                    <a href="#">Voucher</a>
+                    <a href="#">Print@Home</a>
+                    <a href="#">Zoo gifts</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <div class="breadcrumb">
+                <a href="#">◄ Weiter einkaufen</a>
+            </div>
+
+            <table class="cart-table" id="cart-table">
+                <thead>
+                    <tr>
+                        <th>Löschen</th>
+                        <th>Artikel</th>
+                        <th>Versandart</th>
+                        <th>Stückpreis</th>
+                        <th>Menge</th>
+                        <th>Summe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-price="69.00" data-quantity="1">
+                        <td><button class="delete-btn" onclick="deleteItem(this)">Löschen</button></td>
+                        <td>
+                            <img src="https://via.placeholder.com/50x50/90be6d/ffffff?text=Ticket" alt="Ticket" class="item-img">
+                            <div class="item-description">
+                                <div class="item-title">Jahreskarten gutschein - Erwachsene - Print@Home</div>
+                                <div class="item-details">Gutscheingrund: Karteninserat</div>
+                            </div>
+                        </td>
+                        <td>Print@Home</td>
+                        <td class="price">69,00 €</td>
+                        <td class="quantity">1</td>
+                        <td class="price item-total">69,00 €</td>
+                    </tr>
+                    <tr data-price="69.00" data-quantity="1">
+                        <td><button class="delete-btn" onclick="deleteItem(this)">Löschen</button></td>
+                        <td>
+                            <img src="https://via.placeholder.com/50x50/90be6d/ffffff?text=Ticket" alt="Ticket" class="item-img">
+                            <div class="item-description">
+                                <div class="item-title">Jahreskarten gutschein - Erwachsene - Print@Home</div>
+                                <div class="item-details">Gutscheingrund: Karteninserat</div>
+                            </div>
+                        </td>
+                        <td>Print@Home</td>
+                        <td class="price">69,00 €</td>
+                        <td class="quantity">1</td>
+                        <td class="price item-total">69,00 €</td>
+                    </tr>
+                    <tr class="vat-row">
+                        <td colspan="6">Enthaltenes MwSt. 13 %</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="5" style="text-align: right; padding-right: 20px;">Gesamtsumme</td>
+                        <td class="price" id="grand-total">138,00 €</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="summary">
+                Gesamtsumme: <strong id="summary-total">138,00 €</strong>
+            </div>
+
+            <button class="continue-btn">weiter</button>
+
+            <div class="notice">
+                Bitte überprüfen Sie Ihre ausgewählten Artikel!
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h4>SHOP</h4>
+                    <ul>
+                        <li><a href="#">Onlineshop</a></li>
+                        <li><a href="#">Stempel</a></li>
+                        <li><a href="#">Tiergarten Schönbrunn</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>SERVICE</h4>
+                    <ul>
+                        <li><a href="#">Konto verwalten</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>INFORMATION</h4>
+                    <ul>
+                        <li><a href="#">Impressum</a></li>
+                        <li><a href="#">Datenschutz</a></li>
+                        <li><a href="#">Online-Streitbeilegung</a></li>
+                        <li><a href="#">AGB</a></li>
+                        <li><a href="#">Widerrufsbelehrung</a></li>
+                        <li><a href="#">Barrierefreiheit</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>KONTAKT</h4>
+                    <div class="contact-info">
+                        <div class="contact-icon">Phone</div>
+                        <div>
+                            <div>Mo - Fr 9:00 - 17:00</div>
+                            <div>+43 1 87904 0</div>
+                            <div><a href="mailto:shop@zoovienna.at">shop@zoovienna.at</a></div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        Tiergarten Schönbrunn<br>
+                        Maxingstraße 13b, 1130 Wien
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-logos">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" style="height: 20px;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/2560px-MasterCard_Logo.svg.png" alt="Mastercard" style="height: 30px;">
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function deleteItem(button) {
+            const row = button.closest('tr');
+            row.remove();
+            updateCartSummary();
+        }
+
+        function updateCartSummary() {
+            let total = 0;
+            let itemCount = 0;
+
+            document.querySelectorAll('#cart-table tbody tr:not(.vat-row):not(.total-row)').forEach(row => {
+                const price = parseFloat(row.getAttribute('data-price'));
+                const qty = parseInt(row.getAttribute('data-quantity'));
+                if (!isNaN(price) && !isNaN(qty)) {
+                    total += price * qty;
+                    itemCount += qty;
+                }
+            });
+
+            const formattedTotal = total.toFixed(2).replace('.', ',') + ' €';
+            const itemText = itemCount === 1 ? 'Artikel' : 'Artikel';
+
+            document.getElementById('grand-total').textContent = formattedTotal;
+            document.getElementById('summary-total').textContent = formattedTotal;
+            document.getElementById('cart-info').textContent = `${itemCount} ${itemText} ${formattedTotal}`;
+        }
+
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', updateCartSummary);
+    </script>
+
+</body>
+</html>

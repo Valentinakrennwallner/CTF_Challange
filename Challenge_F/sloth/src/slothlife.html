@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="font.css" />
+  <link rel="stylesheet" href="output.css" />
+  <title>Home | LearnCoding</title>
+
+  <style>
+    /* Tambahan style overlay */
+    .video-wrap {
+      position: relative;
+      width: 560px;
+      height: 315px;
+      display: inline-block;
+    }
+    .video-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .click-overlay {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0); /* transparan */
+      z-index: 5;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="px-[100px] mt-[40px] flex items-center justify-between">
+      <div class="flex items-center gap-x-[135.33px]">
+        <a href="./index.html">
+          <img src="assets/images/logos/logo.svg" alt="Logo" class="w-[500.90px] h-[55px] shrink-0" />
+        </a>
+        <div>
+          <ul class="text-[16px] text-[#0A0E2E] font-normal flex items-center gap-x-[50px]">
+            <li class="hover:font-semibold duration-300 transition-all"><a href="./slothlife.html">Sloth Life</a></li>
+            <li class="hover:font-semibold duration-300 transition-all"><a href="./discoversloth.html">Discover Sloth</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="mt-[84px] mb-[100.8px]">
+      <div class="max-w-[1512px] mx-auto">
+        <div class="flex items-center justify-between w-full px-[153px]">
+          <div>
+            <h1 class="mt-[16px] text-[80px] leading-[125.6%] max-w-[607px] text-[#0A0E2E]">The Sloth Life</h1>
+                        <div class="space-y-6 text-lg text-gray-700 max-w-3xl">
+                            <br>
+                            <p>
+                                Sloths, the world's slowest mammals, have a laidback lifestyle that is perfectly
+                                adapted for survival in the tropical rainforests of Central and South America.
+                                They are not primates, but rather belong to the same group of creatures as
+                                armadillos and anteaters, falling under the superorder Xenarthra.
+                            </p>
+                            <br>
+                            <h2 class="text-3xl font-semibold pt-4 text-[#0A0E2E]">The Mystery of Their Slowness</h2>
+                            <p>
+                                The defining characteristic of the sloth is its extreme slowness. This isn't laziness; it's a survival strategy driven by their diet in return. Sloths primarily eat leaves, which are a low-energy food source. To conserve the energy they gain, they have evolved a remarkably low metabolic rate and move very deliberately. They spend nearly all their time hanging upside down from tree branches. Their specialized anatomy, with their claws acting like built-in hooks, means they exert almost no energy to stay suspended.
+                            </p>
+                            <br>
+                            <h2 class="text-3xl font-semibold pt-4 text-[#0A0E2E]">A Walking Ecosystem</h2>
+                            <p>
+                                A sloth's fur is unique it's grooved and acts like a tiny sponge, absorbing water and fostering a mutualistic relationship with algae. This algae gives their coat a greenish tint return, providing them with effective camouflage that helps them blend into the canopy and avoid predators like jaguars and eagles. Their fur is also home to moths, beetles, and other invertebrates, creating a miniature, walking ecosystem on their backs. Scientists are even studying the fungi and bacteria in their fur, which may hold secrets to new antibiotics.
+                            </p>
+                            <br>
+                            <h2 class="text-3xl font-semibold pt-4 text-[#0A0E2E]">The Risky Trip to the Bathroom</h2>
+                            <p>
+                                Despite their tree-dwelling life, sloths descend to the forest floor once a week to defecate. This is the most dangerous act of their lives, as they are vulnerable to ground predators. When they do go, they make it count—a single bowel movement can account for up to a third of their body weight! The exact reason for this risky behavior remains a mystery, though theories suggest it aids in communication, helps fertilize their host tree, or supports the moth/algae ecosystem in their fur.
+                            </p>
+                            <br>
+                            <h2 class="text-3xl font-semibold pt-4 text-[#0A0E2E]">Key Facts and Conservation</h2>
+                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                <li>There are six species of sloths, divided into two main groups: two-toed sloths (which are more active at night) and three-toed sloths (which are generally slower and more closely resemble a happy, smiling face).</li>
+                                <li>Sloths are surprisingly good swimmers, often dropping directly into water from a tree branch to cross rivers quickly.</li>
+                                <li>The biggest threat to sloths is **habitat loss** due to deforestation, as they return on a continuous canopy for safe movement.</li>
+                            </ul>
+                        </div>
+
+            <div style="margin-top: 30px; display: flex; flex-direction: column; align-items: center;">
+              <h3>Watch: The Extreme Life of a Sloth</h3>
+
+              <!-- Video + overlay -->
+              <div class="video-wrap">
+                <iframe
+                  src="https://www.youtube.com/embed/DpV4k3Edr-I?rel=0"
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+                <!-- overlay transparan -->
+                <div class="click-overlay" id="overlay"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById("overlay").addEventListener("click", function () {
+      window.location.href = "https://www.bwin.com/de-at/engage/lan/pm/casino/cas_100b?wm=5258527&tdpeh=64224_16411766591_133841324317_750870812630_kwd-10487851_b_c&utm_source=search_google&utm_campaign=16411766591&utm_content=750870812630&utm_medium=b&utm_term=online%20casino&sb=1&gad_source=1&gad_campaignid=16411766591&gbraid=0AAAAADxF3Xvu9KTYEDdaW99yjOoU0lHmE&gclid=Cj0KCQjwvJHIBhCgARIsAEQnWlClRZRCdtowcMM9eGEMdBlrK_5h9VfjNVIXHQGVf0VSNIbbsQKDsMsaAhRzEALw_wcB";
+    });
+  </script>
+</body>
+</html>
+
+
+
+<!--// Wie lautet die Basis-Adresse, auf der wir arbeiten?
+// Antwort: __________
+
+
+// Was verwendet der Youtube Link für ein Sonderzeichen?
+// Antwort: __________
+
+// Es gibt eine Seite, auf der ein Wort mit „r“ beginnt und dreimal vorkommt. Welches Wort ist gemeint?
+// Antwort: __________-->
+
+
+
+
+
+
+

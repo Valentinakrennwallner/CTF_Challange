@@ -1,0 +1,14 @@
+Users in DB already. 
+1. Login Admin -> admin | Admin123
+2. Login Student -> Valin | Student123
+
+
+npm run db:reset
+npm run db:seed
+npm install
+npm run dev
+
+
+
+
+

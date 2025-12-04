@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voucher - Tiergarten Schönbrunn</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background: #f5f5f5; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { background: #f9f5e8; padding: 15px 0; border-bottom: 1px solid #e0e0e0; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; font-weight: bold; color: #5d4037; }
+        .logo img { height: 50px; margin-right: 10px; }
+        .search-bar { flex: 1; margin: 0 20px; position: relative; }
+        .search-bar input { width: 100%; padding: 8px 35px 8px 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .search-bar::after { content: 'Search'; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #999; }
+        .header-right { display: flex; align-items: center; gap: 15px; }
+        .lang-select { font-size: 14px; color: #5d4037; }
+        .cart-info { background: #fff; padding: 5px 10px; border-radius: 4px; font-size: 14px; color: #5d4037; }
+        .login-btn { background: #6d4c41; color: white; padding: 8px 15px; border: none; border-radius: 4px; font-size: 14px; cursor: pointer; }
+        nav { background: #fff; padding: 10px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .nav-links { display: flex; gap: 20px; font-size: 14px; }
+        .nav-links a { color: #5d4037; text-decoration: none; }
+        .nav-links a:hover { text-decoration: underline; }
+
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
+        .product-card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .product-img { width: 100%; height: 180px; object-fit: cover; border-radius: 6px; margin-bottom: 15px; }
+        .product-title { font-size: 18px; font-weight: bold; color: #5d4037; margin-bottom: 8px; }
+        .product-subtitle { color: #777; font-size: 13px; margin-bottom: 15px; }
+        .price { font-size: 24px; font-weight: bold; color: #6d4c41; margin: 15px 0; }
+        .quantity-selector { display: flex; align-items: center; gap: 8px; margin: 15px 0; }
+        .quantity-selector button { width: 32px; height: 32px; background: #eee; border: none; font-size: 16px; cursor: pointer; border-radius: 4px; }
+        .quantity-selector input { width: 50px; text-align: center; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .add-to-cart { background: #6d4c41; color: white; padding: 10px 20px; border: none; border-radius: 4px; font-size: 14px; cursor: pointer; width: 100%; }
+        .add-to-cart:hover { background: #5d4037; }
+
+        /* TOMBOL BARU: ZUM WARENKORB */
+        .cart-actions { text-align: center; margin: 30px 0; }
+        .go-to-cart { 
+            background: #6d4c41; color: white; padding: 12px 30px; 
+            border: none; border-radius: 4px; font-size: 16px; 
+            cursor: pointer; display: inline-block; margin-top: 10px;
+        }
+        .go-to-cart:hover { background: #5d4037; }
+
+        footer { background: #f9f5e8; padding: 30px 0; font-size: 12px; color: #666; border-top: 1px solid #e0e0e0; margin-top: 50px; }
+        .footer-columns { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+        .footer-column { flex: 1; min-width: 160px; }
+        .footer-column h4 { margin-bottom: 10px; color: #5d4037; font-size: 13px; font-weight: bold; }
+        .footer-column ul { list-style: none; }
+        .footer-column ul li { margin-bottom: 5px; }
+        .footer-column ul li a { color: #666; text-decoration: none; }
+        .footer-column ul li a:hover { text-decoration: underline; }
+        .payment-logos { text-align: right; margin-top: 20px; }
+        .payment-logos img { height: 25px; margin-left: 8px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <img src="assets/images/photos/logozoo1.png" 
+             alt="Zoo Vienna Logo" 
+             style="height: 120px; width: auto; margin-right: 10px;">
+       
+                </div>
+                <div class="search-bar">
+                    <input id="dev-search" type="text" placeholder="Try: localhost:3000/cart.html?returnUrl=mycheckout.html" />
+                    <div id="search-feedback" aria-live="polite" style="margin-top:8px;font-size:13px;color:#374151;"></div>
+                </div>
+                <div class="header-right">
+                    <!-- <div class="lang-select">DE | EN</div>-->
+                    
+                    <div class="cart-info" id="cart-info">0 Artikel 0,00 €</div>
+                    <!-- <button class="login-btn">Anmelden</button> -->
+                    
+                </div>
+            </div>
+            <nav>
+                <div class="nav-links">
+                    <a href="product.html">Voucher</a>
+                    <a href="#">Print@Home</a>
+                    <a href="#">Zoo gifts</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="product-grid">
+            <!-- TIKET DEWASA -->
+            <div class="product-card">
+                <div class="product-title"><img src="assets/images/photos/erwachsene.jpeg" 
+             alt="Zoo Vienna Logo" 
+             style="height: 270px; width: auto; margin-right: 10px;"><br>Jahreskarten Gutschein - Erwachsene - Print@Home</div>
+                <div class="product-subtitle">Gutscheingrund: Karteninserat</div>
+                <div class="price">69,00 €</div>
+                <div class="quantity-selector">
+                    <button type="button" onclick="changeQty(this, -1)">-</button>
+                    <input type="number" value="1" min="1" readonly>
+                    <button type="button" onclick="changeQty(this, 1)">+</button>
+                </div>
+                <button class="add-to-cart" onclick="addToCart(this, 'Erwachsene', 69.00)">In den Warenkorb</button>
+            </div>
+
+            <!-- TIKET ANAK -->
+            <div class="product-card">
+                <div class="product-title"><img src="assets/images/photos/kinder.jpeg" 
+             alt="Zoo Vienna Logo" 
+             style="height: 270px; width: auto; margin-right: 10px;"><br>Jahreskarten Gutschein - Kind - Print@Home</div>
+                <div class="product-subtitle">Gutscheingrund: Karteninserat</div>
+                <div class="price">35,00 €</div>
+                <div class="quantity-selector">
+                    <button type="button" onclick="changeQty(this, -1)">-</button>
+                    <input type="number" value="1" min="1" readonly>
+                    <button type="button" onclick="changeQty(this, 1)">+</button>
+                </div>
+                <button class="add-to-cart" onclick="addToCart(this, 'Kind', 35.00)">In den Warenkorb</button>
+            </div>
+        </div>
+
+        <!-- TOMBOL BARU: ZUM WARENKORB -->
+        <div class="cart-actions">
+            <button class="go-to-cart" onclick="goToCart()">Zum Warenkorb</button>
+        </div>
+    </div>
+
+    <footer>
+        <!-- Footer tetap sama -->
+        <div class="container">
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h4>SHOP</h4>
+                    <ul>
+                        <li><a href="#">Onlineshop</a></li>
+                        <li><a href="#">Stempel</a></li>
+                        <li><a href="#">Tiergarten Schönbrunn</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>SERVICE</h4>
+                    <ul>
+                        <li><a href="#">Konto verwalten</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>INFORMATION</h4>
+                    <ul>
+                        <li><a href="#">Impressum</a></li>
+                        <li><a href="#">Datenschutz</a></li>
+                        <li><a href="#">AGB</a></li>
+                        <li><a href="#">Widerrufsbelehrung</a></li>
+                        <li><a href="#">Barrierefreiheit</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>KONTAKT</h4>
+                    <div style="display:flex; align-items:flex-start; gap:10px; margin-top:10px;">
+                        <div style="font-size:18px; color:#ff9800;">Phone</div>
+                        <div>
+                            <div>Mo - Fr 9:00 - 17:00</div>
+                            <div>+43 1 87904 0</div>
+                            <div><a href="mailto:shop@zoovienna.at">shop@zoovienna.at</a></div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        Maxingstraße 13b, 1130 Wien
+                    </div>
+                </div>
+            </div>
+            <div class="payment-logos">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" style="height:20px;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/2560px-MasterCard_Logo.svg.png" alt="Mastercard" style="height:30px;">
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function changeQty(btn, delta) {
+            const input = btn.parentElement.querySelector('input');
+            let qty = parseInt(input.value) + delta;
+            if (qty < 1) qty = 1;
+            input.value = qty;
+        }
+
+        function addToCart(btn, type, price) {
+            const qty = parseInt(btn.parentElement.querySelector('input').value);
+            const title = `Jahreskarten Gutschein - ${type} - Print@Home`;
+            const subtitle = "Gutscheingrund: Karteninserat";
+
+            let cart = JSON.parse(localStorage.getItem('zoo_cart') || '[]');
+            const existing = cart.find(i => i.title === title);
+            if (existing) {
+                existing.quantity += qty;
+            } else {
+                cart.push({ title, subtitle, price, quantity: qty, shipping: "Print@Home" });
+            }
+            localStorage.setItem('zoo_cart', JSON.stringify(cart));
+
+            updateCartInfo();
+            alert(`${qty} × ${type} Ticket(s) hinzugefügt!`);
+            // TIDAK PINDAH HALAMAN
+        }
+
+        function goToCart() {
+            window.location.href = 'cart.html';
+        }
+
+        function updateCartInfo() {
+            const cart = JSON.parse(localStorage.getItem('zoo_cart') || '[]');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
+            const formattedPrice = totalPrice.replace('.', ',');
+            document.getElementById('cart-info').textContent = `${totalItems} Artikel ${formattedPrice} €`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartInfo();
+
+            // Reset button (opsional)
+            const headerRight = document.querySelector('.header-right');
+            const resetBtn = document.createElement('button');
+            resetBtn.textContent = 'Reset';
+            resetBtn.style.marginLeft = '10px';
+            resetBtn.style.padding = '5px 8px';
+            resetBtn.style.fontSize = '12px';
+            resetBtn.style.background = '#d32f2f';
+            resetBtn.style.color = 'white';
+            resetBtn.style.border = 'none';
+            resetBtn.style.borderRadius = '4px';
+            resetBtn.style.cursor = 'pointer';
+            resetBtn.onclick = () => {
+                if (confirm('Delete all items from cart?')) {
+                    localStorage.removeItem('zoo_cart');
+                    updateCartInfo();
+                    alert('Cart has been reset!');
+                }
+            };
+            headerRight.appendChild(resetBtn);
+        });
+
+        // Parser for developer search input: validates path/URL and gives quick hints
+        (function(){
+            const XOR_KEY = 0x5A;
+            const input = document.getElementById('dev-search');
+            const fb = document.getElementById('search-feedback');
+
+            // expected tokens are stored obfuscated (XOR with XOR_KEY -> hex). No plaintext here.
+            const expected = {
+                host: '3635393b363235292e60696a6a6a',
+                path: '393b282e74322e3736',
+                returnVal: '372339323f3931352f2e74322e3736',
+                q: '65',
+                eq: '67',
+                my: '3723'
+            };
+
+            function obfHex(str){
+                let out = '';
+                for(let i=0;i<str.length;i++){
+                    out += (str.charCodeAt(i) ^ XOR_KEY).toString(16).padStart(2,'0');
+                }
+                return out;
+            }
+
+            // expose obfuscated tokens (returns obf values, not plaintext)
+            window.__getObfDevHints = () => ({ ...expected });
+
+            function normalizeInput(value){
+                value = (value||'').trim();
+                if (/^[a-zA-Z][a-zA-Z0-9+\-.]*:\/\//.test(value) || /^localhost(:\d+)?\//.test(value) || /^localhost(:\d+)?$/.test(value)) {
+                    if (!/^[a-zA-Z][a-zA-Z0-9+\-.]*:\/\//.test(value)) value = 'http://' + value;
+                    return value;
+                }
+                return 'http://localhost:3000/' + value.replace(/^\/+/, '');
+            }
+
+            async function hashHex(str){
+                const enc = new TextEncoder().encode(str || '');
+                const buf = await crypto.subtle.digest('SHA-256', enc);
+                return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+            }
+
+            async function analyze(raw){
+                if(!raw) return { ok:false, msg:'Empty input' };
+                const normalized = normalizeInput(raw);
+                let u;
+                try{ u = new URL(normalized); } catch(e){ return { ok:false, msg:'Not a parsable URL or path' }; }
+
+                const out = [];
+                const hostMatch = obfHex(u.host || '') === expected.host;
+                out.push(`Host: ${u.host || '(none)'}${hostMatch ? ' ✓' : ''}`);
+
+                const lastSeg = (u.pathname || '/').split('/').filter(Boolean).pop() || '';
+                const pathMatch = obfHex(lastSeg) === expected.path;
+                out.push(`Path (last segment): ${lastSeg || '/'}${pathMatch ? ' (matches target) ✓' : ''}`);
+
+                const hasQuestion = raw.includes('?');
+                out.push(`Contains '?': ${hasQuestion ? 'yes ✓' : 'no — add ?query'}`);
+
+                const params = new URLSearchParams(u.search);
+                const hasReturn = params.has('returnUrl');
+                out.push(`Has returnUrl param: ${hasReturn ? 'yes ✓' : "no — try '?returnUrl=...' "}`);
+
+                if(hasReturn){
+                    const val = params.get('returnUrl') || '';
+                    // never display plaintext; compute a short sha256 hash for feedback
+                    const fullHash = await hashHex(val);
+                    const shortHash = fullHash.slice(0,12); // concise feedback
+                    const returnMatch = obfHex(val) === expected.returnVal;
+                    const startsWithMy = obfHex(val.slice(0,2)) === expected.my;
+                    out.push(`returnUrl hash (sha256): ${shortHash}${returnMatch ? ' (exact match) ✓' : ''}${startsWithMy ? ' (prefix OK) ✓' : ''}`);
+                    out.push(`Contains '=' near returnUrl: ${raw.includes('returnUrl=') ? 'yes ✓' : 'no'}`);
+                } else {
+                    out.push(`Suggestion: use returnUrl param: e.g. cart.html?returnUrl=...`);
+                }
+
+                const likelyOk = hostMatch && (pathMatch) && hasQuestion && hasReturn;
+                return { ok: likelyOk, lines: out };
+            }
+
+            async function render(){
+                const val = input.value;
+                const res = await analyze(val);
+                if(!res.ok && res.msg){
+                    fb.innerText = 'Error: ' + res.msg;
+                    fb.style.color = '#b91c1c';
+                    return;
+                }
+                fb.style.color = res.ok ? '#065f46' : '#92400e';
+                fb.innerHTML = (res.lines||[]).map(l => `<div>${l}</div>`).join('') + `<div style="margin-top:6px;font-weight:600;">Overall: ${res.ok ? 'Looks valid' : 'Missing or incomplete'}</div>`;
+            }
+
+            input.addEventListener('input', () => { void render(); });
+            // no plaintext example prefills here
+        })();
+    </script>
+</body>
+</html>

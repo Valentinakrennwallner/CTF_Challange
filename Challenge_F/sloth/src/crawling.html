@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zahlung erfolgreich!</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #FF6B6B 0%, #FFAAAA 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #333;
+    }
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      padding: 40px 30px;
+      width: 90%;
+      max-width: 400px;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    h1 {
+      font-size: 2em;
+      color: #28a745; /* hijau sukses */
+      margin-bottom: 15px;
+    }
+    p {
+      font-size: 1.1em;
+      margin-bottom: 30px;
+      color: #444;
+      line-height: 1.5;
+    }
+    .btn {
+      background-color: #0077b6;
+      color: white;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+    .btn:hover {
+      background-color: #023e8a;
+    }
+    .success-icon {
+      font-size: 50px;
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="success-icon">✔️</div>
+    <h1>Sloths crawl on the ground - and you have been phished for!</h1>
+    <p>When sloths move, they crawl along on their limbs, pulling their bodies forward slowly and deliberately.</p>
+    <p>Your money has been pulled fast from your credit card! Goodbye</p>
+    <p>Imagine you receive this phishing link: https://valid-site.com?next=https://fake.com</p>
+    <a href="index.html" class="btn">Zurück zur Startseite</a>
+  </div>
+</body>
+</html>

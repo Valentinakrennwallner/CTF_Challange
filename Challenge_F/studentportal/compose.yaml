@@ -1,0 +1,48 @@
+# Here are the different containers defined with their environments etc.
+# The db container is health checked which influences the state of the studentportal
+# Influences for this compose file:
+# https://mariadb.com/docs/server/server-management/automated-mariadb-deployment-and-administration/docker-and-mariadb/using-healthcheck-sh
+# Every other compose file introduction :)
+services:
+  server:
+    container_name: studentportal
+    build:
+      context: . # necessary so no remote studentportal gets pulled
+    environment:
+      NODE_ENV: production
+      DB_HOST: mariadb                # use compose service name so containers resolve via Docker DNS
+      DB_USER: root                   # override as needed (set to studentportal if you prefer)
+      DB_PASSWORD: reallySecure213!   # matches MARIADB_ROOT_PASSWORD — adjust if you want the app user instead
+      DB_NAME: studentportal
+      DB_INIT: "true"                 # always init the database (called reset/seed in nodejs)
+      NEXT_PUBLIC_LOGIN_MODE: "safe"  # TODO: why and what does this do <-- add this (use "vulnerable" to mark vulnerable mode)
+    ports:
+      - 3001:3000 # make it accessible from the machine
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - darknet
+  mariadb:
+    container_name: mariadb
+    image: docker.io/library/mariadb:lts
+    restart: always
+    ports:
+      - 3306:3306 # make it accessible from the machine
+    networks:
+      - darknet
+    environment:
+      MARIADB_ROOT_PASSWORD: reallySecure213!
+      MARIADB_DATABASE: studentportal
+      MARIADB_USER: studentportal
+      MARIADB_PASSWORD: password
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+# Use a dedicated network for container access in between them
+networks:
+  darknet:
+    driver: bridge

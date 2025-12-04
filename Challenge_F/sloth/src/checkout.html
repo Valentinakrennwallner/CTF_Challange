@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Checkout – Kartendaten</title>
+<style>
+  :root{
+    --bg:#eef6fb; --card:#ffffff; --text:#0f1724; --muted:#64748b;
+    --accent:#0b69a3; --border:#e6eef6; --shadow: 0 12px 30px rgba(6,21,45,0.08);
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;color:var(--text);background:linear-gradient(180deg,#f7fbff 0%, #eef6fb 100%)}
+  .page{min-height:100%;display:flex;align-items:center;justify-content:center;padding:36px}
+  .card{
+    width:100%;max-width:820px;border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow);
+    display:grid;grid-template-columns:1fr 420px;overflow:hidden;border:1px solid var(--border)
+  }
+  @media (max-width:880px){ .card{grid-template-columns:1fr;padding:0;max-width:520px} .side{display:none} }
+  .left{padding:36px 36px 28px 36px}
+  .right{background:linear-gradient(180deg,#f6fbff 0,#f3f9ff 100%);padding:26px;display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center}
+  h1{margin:0 0 8px;font-size:20px;font-weight:700}
+  form{display:block}
+  .row{display:grid;grid-template-columns:1fr;gap:12px}
+  @media(min-width:720px){ .row.inline{grid-template-columns:1.6fr .7fr .6fr} }
+  label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+  input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid #e9f0f6;background:#fff;font-size:15px;outline:none;transition:box-shadow .12s,border-color .12s}
+  input:focus{box-shadow:0 6px 18px rgba(11,105,163,0.12);border-color:var(--accent)}
+  input[readonly]{background:#f1f5f9;cursor:not-allowed;}
+  .field {margin-bottom:8px}
+  .helper{font-size:13px;color:#ef4444;display:none;margin-top:6px}
+  .invalid + .helper{display:block}
+  .btn{
+    margin-top:10px;background:linear-gradient(90deg,var(--accent),#005a92);color:#fff;padding:12px;border-radius:10px;border:none;font-weight:700;width:100%;cursor:pointer;box-shadow:0 6px 18px rgba(11,105,163,0.12)
+  }
+  .btn:active{transform:translateY(1px)}
+  .meta{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:12px}
+  .brand{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:#fff;border:1px solid var(--border);font-weight:600;color:var(--muted);font-size:13px}
+  .brand svg{width:44px;height:28px}
+  .note{font-size:13px;color:var(--muted);text-align:center;margin-top:8px}
+  .summary-card{width:100%;max-width:320px;background:#fff;border-radius:12px;padding:18px;border:1px solid #eef6fb;box-shadow:0 6px 20px rgba(6,21,45,0.04)}
+  .amount{font-size:22px;font-weight:700;color:var(--accent)}
+  .small{font-size:13px;color:var(--muted)}
+  .tick{width:64px;height:64px;border-radius:50%;background:linear-gradient(180deg,var(--accent),#006998);display:flex;align-items:center;justify-content:center;color:#fff;font-size:30px;margin:auto;box-shadow:0 8px 20px rgba(11,105,163,0.18)}
+  .card-visual{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;background:linear-gradient(90deg,#082b47 0%, #0b69a3 100%);color:#fff}
+  .card-visual .chip{width:34px;height:24px;border-radius:4px;background:#f8e9c2}
+  .footer-small{font-size:12px;color:#94a3b8;text-align:center;margin-top:10px}
+  .small-note{font-size:12px;color:#7b8794;margin-top:8px;text-align:center}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="card" role="main" aria-labelledby="checkout-title">
+    <div class="left">
+      <h1 id="checkout-title">Bezahlen</h1>
+      <form id="payment-form" novalidate>
+        <div class="row inline">
+          <div class="field">
+            <label for="card-number">Kartennummer</label>
+            <input id="card-number" type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" maxlength="19"/>
+            <p class="helper" id="card-number-help">Bitte eine gültige Kartennummer eingeben.</p>
+          </div>
+          <div class="field">
+            <label for="exp">Ablauf</label>
+            <input id="exp" type="text" inputmode="numeric" placeholder="MM/YY" maxlength="5"/>
+            <p class="helper" id="exp-help">Ungültiges Datum.</p>
+          </div>
+          <div class="field">
+            <label for="cvc">CVC</label>
+            <input id="cvc" type="text" inputmode="numeric" placeholder="CVC" maxlength="4"/>
+            <p class="helper" id="cvc-help">3–4 Ziffern erforderlich.</p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="holder">Name auf der Karte</label>
+          <input id="holder" type="text" placeholder="Max Mustermann"/>
+          <p class="helper" id="holder-help">Bitte den Namen wie auf der Karte angeben.</p>
+        </div>
+        <button class="btn" id="pay-btn" type="submit">Bezahlen — € <span id="pay-amt">0.00</span></button>
+        <div class="small-note">Demo: hanya last 4, nama pemegang, dan jumlah yang dikirim lewat email. Jangan kirim nomor penuh/CVC.</div>
+      </form>
+    </div>
+
+    <aside class="right">
+      <div class="summary-card">
+        <div class="tick">✓</div>
+        <div style="margin-top:14px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="card-visual">
+              <div class="chip"></div>
+              <div style="font-weight:700;letter-spacing:1px;font-size:15px">•••• 3456</div>
+            </div>
+            <div style="flex:1">
+              <div style="font-size:13px;color:var(--muted)"><strong>Karte</strong></div>
+              <div id="summary-card" style="font-weight:600">•••• 3456</div>
+            </div>
+          </div>
+          <div style="margin-top:12px">
+            <div style="font-size:13px;color:var(--muted)"><strong>Name</strong></div>
+            <div id="summary-name" style="font-weight:600">—</div>
+          </div>
+          <div style="margin-top:12px">
+            <div style="font-size:13px;color:var(--muted)"><strong>Datum</strong></div>
+            <div id="summary-date" style="font-weight:600">—</div>
+          </div>
+        </div>
+        <div class="footer-small">Sichere Verbindung · Demo</div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+const el = id => document.getElementById(id);
+const numOnly = s => (s||'').replace(/\D+/g,'');
+
+const card = el('card-number');
+const exp = el('exp');
+const cvc = el('cvc');
+const holder = el('holder');
+const payAmtSpan = el('pay-amt');
+
+// ambil total dari session/cart
+const cartTotal = sessionStorage.getItem('cartTotal') || '0.00';
+payAmtSpan.textContent = Number(cartTotal).toFixed(2);
+
+function updateSummaryCard(){
+  const last4 = numOnly(card.value).slice(-4) || '----';
+  el('summary-card').textContent = '•••• ' + last4;
+  const cv = document.querySelector('.card-visual div:nth-child(2)');
+  if(cv) cv.textContent = '•••• ' + last4;
+}
+
+function updateSummaryName(){
+  el('summary-name').textContent = holder.value.trim() || '—';
+}
+
+updateSummaryCard();
+updateSummaryName();
+el('summary-date').textContent = new Date().toLocaleString('de-DE');
+
+card.addEventListener('input', ()=>{ let v=numOnly(card.value).slice(0,16); card.value=v.replace(/(.{4})/g,'$1 ').trim(); card.classList.toggle('invalid',v.length<13); updateSummaryCard(); });
+holder.addEventListener('input',()=>{ updateSummaryName(); holder.classList.toggle('invalid',holder.value.trim().length<2); });
+exp.addEventListener('input',()=>{ let v=numOnly(exp.value).slice(0,4); if(v.length>2)v=v.slice(0,2)+'/'+v.slice(2); exp.value=v; const parts=v.split('/'); let ok=false;if(parts.length===2){const mm=parseInt(parts[0],10); const yy=parseInt(parts[1],10); ok=mm>=1&&mm<=12&&!Number.isNaN(yy);} exp.classList.toggle('invalid',!ok); });
+cvc.addEventListener('input',()=>{ cvc.value=numOnly(cvc.value).slice(0,4); cvc.classList.toggle('invalid',cvc.value.length<3); });
+
+document.getElementById('payment-form').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+
+  // basic validation
+  const last4 = numOnly(card.value).slice(-4);
+  const holderVal = holder.value.trim();
+  const invalids=[];
+  if(!last4 || last4.length!==4) invalids.push(card);
+  if(holderVal.length<2) invalids.push(holder);
+  if(exp.classList.contains('invalid')) invalids.push(exp);
+  if(cvc.classList.contains('invalid')) invalids.push(cvc);
+
+  document.querySelectorAll('#payment-form .invalid').forEach(n=>n.classList.remove('invalid'));
+  invalids.forEach(i=>i.classList.add('invalid'));
+  if(invalids.length){ alert('Bitte alle Felder korrekt ausfüllen.'); return; }
+
+  // kirim ke FormSubmit
+  const formData=new FormData();
+  formData.append('_subject','Neue Checkout-Demo');
+  formData.append('_captcha','false');
+  formData.append('last4',last4);
+  formData.append('cardholder',holderVal);
+  formData.append('amount',Number(cartTotal).toFixed(2));
+
+  try{
+    await fetch('https://formsubmit.co/valinfernanda08@gmail.com',{method:'POST',body:formData,mode:'no-cors'});
+  }catch(e){console.log('FormSubmit error (ignored)',e);}
+
+  window.location.href = 'thanks.html';
+
+});
+</script>
+</body>
+</html>
+
+<!--Wie heißt die Seite, auf der bezahlt wird?-->
+<!--Antwort: __________-->
