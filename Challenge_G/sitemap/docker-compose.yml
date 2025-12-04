@@ -1,0 +1,11 @@
+services:
+  sitemap:
+    build: .
+    ports:
+      - "4001:4001"
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /
+    restart: unless-stopped

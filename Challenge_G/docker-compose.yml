@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  messageboard:
+    build: ./messageboard
+    ports:
+      - "4000:4000"
+    restart: unless-stopped
+    volumes:
+      - ./messageboard/data:/opt/messageboard/data
+      - ./messageboard/uploads:/opt/messageboard/uploads
+
+  sitemap:
+    build: ./sitemap
+    ports:
+      - "4001:4001"
+    restart: unless-stopped
